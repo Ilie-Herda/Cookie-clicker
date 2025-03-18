@@ -1,3 +1,4 @@
+/* Reset and general styles */
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +7,7 @@
 }
 
 body {
-    background-color: #121212; /* dark background */
+    background-color: lightblue;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,6 +15,7 @@ body {
     padding: 0 10%;
 }
 
+/* Left side - Cookie and Stats */
 #left-side {
     display: flex;
     flex-direction: column;
@@ -34,7 +36,20 @@ body {
     cursor: pointer;
 }
 
-#shop {
+#reset {
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    width: 90%;
+}
+
+/* Production (Previously Shop) */
+#production {
     position: absolute;
     right: 10%;
     top: 15%;
@@ -44,20 +59,20 @@ body {
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     width: 220px;
-    min-height: 75vh; 
+    min-height: 75vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
 
-#shop h2 {
+#production h2 {
     font-size: 24px;
     margin-bottom: 20px;
     border-bottom: 2px solid #8b5a2b;
     padding-bottom: 10px;
 }
 
-#shop button {
+#production button {
     margin-top: 15px;
     padding: 12px;
     font-size: 18px;
@@ -69,14 +84,54 @@ body {
     width: 90%;
 }
 
-#shop button:hover {
-    background-color: lightblue;
+#production button:hover {
+    background-color: #5a99d4;
 }
 
-#clickEarnings, #autoEarnings {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
+/* Shop Icon */
+#shop-icon {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    cursor: pointer;
 }
 
+/* Shop Pop-up */
+#shop-popup {
+    position: fixed;
+    bottom: 10%;
+    right: 5%;
+    width: 250px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#shop-popup h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+#shop-popup button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #5a99d4;
+    color: white;
+}
+
+#shop-popup button:hover {
+    background-color: #4177b5;
+}
+
+.hidden {
+    display: none !important;
+}
