@@ -1,4 +1,4 @@
-/* Reset and general styles */
+/* Reset en algemene stijlen */
 * {
     margin: 0;
     padding: 0;
@@ -7,62 +7,72 @@
 }
 
 body {
-    background-color: lightblue;
+    /* Warme, cookie-achtige gradient achtergrond */
+    background: linear-gradient(135deg, #f8e6c4, #d2a679);
+    position: relative;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     height: 100vh;
-    padding: 0 10%;
 }
 
-/* Left side - Cookie and Stats */
+/* Cookie, stats en reset (in het midden) */
 #left-side {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute;
-    left: 10%;
-    top: 30%;
+    text-align: center;
 }
 
 #counter {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 20px;
+    border-radius: 10px;
     margin-bottom: 10px;
 }
 
 #cookie {
     width: 200px;
     cursor: pointer;
+    margin-bottom: 15px;
 }
 
 #reset {
-    margin-top: 15px;
-    padding: 10px;
-    font-size: 16px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
     cursor: pointer;
     border: none;
-    border-radius: 5px;
-    background-color: red;
+    border-radius: 10px;
+    /* Rijke rode gradient voor de reset button */
+    background: linear-gradient(45deg, #e53935, #f44336);
     color: white;
-    width: 90%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 15px;
 }
 
-/* Production (Previously Shop) */
+#reset:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Production-container: rechts geplaatst */
 #production {
     position: absolute;
     right: 10%;
-    top: 15%;
+    top: 50%;
+    transform: translateY(-50%);
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     width: 220px;
-    min-height: 75vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
 }
 
 #production h2 {
@@ -88,9 +98,9 @@ body {
     background-color: #5a99d4;
 }
 
-/* Shop Icon */
+/* Shop icoon */
 #shop-icon {
-    position: absolute;
+    position: fixed;
     bottom: 20px;
     right: 20px;
     width: 50px;
