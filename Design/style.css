@@ -3,25 +3,85 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    /* Warme, cookie-achtige gradient achtergrond */
     background: linear-gradient(135deg, #f8e6c4, #d2a679);
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas: "left middle right";
     height: 100vh;
+    padding: 40px;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* ✅ toegevoegd */
 }
 
-/* Cookie, stats en reset (in het midden) */
+
+/* Linkerzijde visuals */
+#left-units {
+    grid-area: left;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: flex-end;
+}
+
+.unit-visual {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.unit-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+.unit-icon:hover {
+    transform: scale(1.1);
+}
+
+.progress-wrapper {
+    flex: 1;
+}
+
+.progress-label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background-color: #ff9900;
+    transition: width 0.4s ease-in-out;
+    border-radius: 6px;
+}
+
+/* Midden (cookie en stats) */
 #left-side {
+    grid-area: middle;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
+    gap: 15px;
+    min-width: 300px;
 }
 
 #counter {
@@ -32,13 +92,16 @@ body {
     background: rgba(0, 0, 0, 0.3);
     padding: 10px 20px;
     border-radius: 10px;
-    margin-bottom: 10px;
 }
 
 #cookie {
     width: 200px;
     cursor: pointer;
-    margin-bottom: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+#cookie:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 223, 0, 0.5);
 }
 
 #reset {
@@ -48,54 +111,54 @@ body {
     cursor: pointer;
     border: none;
     border-radius: 10px;
-    /* Rijke rode gradient voor de reset button */
     background: linear-gradient(45deg, #e53935, #f44336);
     color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    margin-top: 15px;
 }
-
 #reset:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
 }
 
-/* Production-container: rechts geplaatst */
+/* Rechterzijde productie */
 #production {
-    position: absolute;
-    right: 10%;
-    top: 50%;
-    transform: translateY(-50%);
+    grid-area: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     background-color: white;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    width: 220px;
+    text-align: left;
+    width: 260px;
+    gap: 12px;
 }
 
 #production h2 {
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border-bottom: 2px solid #8b5a2b;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
+    width: 100%;
 }
 
 #production button {
-    margin-top: 15px;
-    padding: 12px;
-    font-size: 18px;
-    cursor: pointer;
+    padding: 10px 14px;
+    font-size: 16px;
     border: none;
-    border-radius: 5px;
-    background-color: lightblue;
-    color: white;
-    width: 90%;
-}
-
-#production button:hover {
+    border-radius: 6px;
     background-color: #5a99d4;
+    color: white;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+#production button:hover {
+    background-color: #4177b5;
+    transform: scale(1.02);
+    box-shadow: 0 0 10px rgba(90,153,212,0.5);
 }
 
 /* Shop icoon */
@@ -136,12 +199,33 @@ body {
     border-radius: 5px;
     background-color: #5a99d4;
     color: white;
+    transition: background-color 0.3s ease;
 }
-
 #shop-popup button:hover {
     background-color: #4177b5;
 }
 
 .hidden {
     display: none !important;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    #left-units, #left-side, #production {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    #shop-popup {
+        left: 10px;
+        right: 10px;
+        width: auto;
+    }
 }
