@@ -243,19 +243,24 @@ class Game {
         this.counterElement.innerText = `Cookies: ${Math.floor(this.cookie)}`;
         this.clickEarningsElement.innerText = `Cookies per click: ${this.cookiePerClick * this.cookieMultiplier}`;
         this.autoEarningsElement.innerText = `Cookies per second: ${(this.autoClickers * 1 + this.grandma * 3 + this.farm * 6 + this.factory * 12) * this.cookieMultiplier}`;
-
+    
         this.upgradeButton.innerText = `Upgrade Click Earnings (Cost: ${this.upgradeCost})`;
         this.autoClickerButton.innerText = `Buy Auto-Clicker (Cost: ${this.autoClickerCost})`;
         this.grandmaButton.innerText = `Buy Grandma's Bakery (Cost: ${this.grandmaCost})`;
         this.farmButton.innerText = `Buy Cookie Farm (Cost: ${this.farmCost})`;
         this.factoryButton.innerText = `Buy Cookie Factory (Cost: ${this.factoryCost})`;
         this.multiplierButton.innerText = `Buy x2 Multiplier (Cost: ${this.multiplierCost})`;
-
-        // Visual updates
+    
         this.setProgress("grandma", this.grandma);
         this.setProgress("farm", this.farm);
         this.setProgress("factory", this.factory);
+    
+        // ➕ NIEUW: Update CPS details per eenheid
+        document.getElementById("grandmaStats").innerText = `Grandmas (${this.grandma}): ${this.grandma * 3 * this.cookieMultiplier} cps`;
+        document.getElementById("farmStats").innerText = `Farms (${this.farm}): ${this.farm * 6 * this.cookieMultiplier} cps`;
+        document.getElementById("factoryStats").innerText = `Factories (${this.factory}): ${this.factory * 12 * this.cookieMultiplier} cps`;
     }
+    
 
     setProgress(type, count) {
         const bar = document.getElementById(`${type}Progress`);

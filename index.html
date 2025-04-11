@@ -8,32 +8,35 @@
     <script src="Script/script.js" defer></script>
 </head>
 <body>
-    <!-- Linkerkant: grandma, farm, factory -->
-    <div id="left-units">
-        <div class="unit-visual">
-            <img src="Design/grandma.png" class="unit-icon" />
-            <div class="progress-wrapper">
-                <div class="progress-label">Grandmas: <span id="grandmaCount">0</span></div>
-                <div class="progress-bar"><div id="grandmaProgress" class="progress-fill"></div></div>
-            </div>
-        </div>
-
-        <div class="unit-visual">
-            <img src="Design/farm.png" class="unit-icon" />
-            <div class="progress-wrapper">
-                <div class="progress-label">Farms: <span id="farmCount">0</span></div>
-                <div class="progress-bar"><div id="farmProgress" class="progress-fill"></div></div>
-            </div>
-        </div>
-
-        <div class="unit-visual">
-            <img src="Design/factory.png" class="unit-icon" />
-            <div class="progress-wrapper">
-                <div class="progress-label">Factories: <span id="factoryCount">0</span></div>
-                <div class="progress-bar"><div id="factoryProgress" class="progress-fill"></div></div>
-            </div>
+   <!-- Linkerkant: grandma, farm, factory -->
+<div id="left-units">
+    <div class="unit-visual">
+        <img src="Design/grandma.png" class="unit-icon" />
+        <div class="progress-wrapper">
+            <div class="progress-label">Grandmas: <span id="grandmaCount">0</span></div>
+            <div class="progress-bar"><div id="grandmaProgress" class="progress-fill"></div></div>
+            <div id="grandmaStats" class="unit-cps-text">Grandmas (0): 0 cps</div>
         </div>
     </div>
+
+    <div class="unit-visual">
+        <img src="Design/farm.png" class="unit-icon" />
+        <div class="progress-wrapper">
+            <div class="progress-label">Farms: <span id="farmCount">0</span></div>
+            <div class="progress-bar"><div id="farmProgress" class="progress-fill"></div></div>
+            <div id="farmStats" class="unit-cps-text">Farms (0): 0 cps</div>
+        </div>
+    </div>
+
+    <div class="unit-visual">
+        <img src="Design/factory.png" class="unit-icon" />
+        <div class="progress-wrapper">
+            <div class="progress-label">Factories: <span id="factoryCount">0</span></div>
+            <div class="progress-bar"><div id="factoryProgress" class="progress-fill"></div></div>
+            <div id="factoryStats" class="unit-cps-text">Factories (0): 0 cps</div>
+        </div>
+    </div>
+</div>
 
     <!-- Midden: cookie -->
     <div id="left-side">
@@ -47,11 +50,15 @@
     <!-- Rechterkant: knoppen -->
     <div id="production">
         <h2>PRODUCTION</h2>
-        <button id="upgrade">Upgrade Click Earnings</button>
-        <button id="autoClicker">Buy Auto-Clicker</button>
-        <button id="grandma">Buy Grandma's Bakery</button>
-        <button id="farm">Buy Cookie Farm</button>
-        <button id="factory">Buy Cookie Factory</button>
+        <button id="upgrade" title="Verhoogt je cookies per klik">Upgrade Click Earnings</button>
+        <button id="autoClicker" title="Koopt een automatische klikker (1 cps)">Buy Auto-Clicker</button>
+        <button id="grandma" title="+3 cookies per seconde per Grandma">Buy Grandma's Bakery</button>
+        <button id="farm" title="+6 cookies per seconde per Farm">Buy Cookie Farm</button>
+        <button id="factory" title="+12 cookies per seconde per Factory">Buy Cookie Factory</button>
+        <button id="multiplier" title="Verdubbelt alle productie">Buy x2 Multiplier</button>
+        <button id="clickBoost" title="Verdubbelt je click power">Click Booster</button>
+        <button id="cheaperProduction" title="Maakt gebouwen 20% goedkoper">Reduce Building Costs</button>
+
     </div>
 
     <!-- Shop -->
