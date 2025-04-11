@@ -237,13 +237,21 @@ body {
 }
 #stats-icon {
     position: fixed;
+<<<<<<< HEAD
     bottom: 20px;
     left: 20px; /* Verplaatst naar links */
+=======
+    bottom: 90px;
+    right: 20px;
+>>>>>>> origin/main
     width: 50px;
     cursor: pointer;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
 #stats-popup {
     position: fixed;
     bottom: 10%;
@@ -258,6 +266,7 @@ body {
     flex-direction: column;
     gap: 10px;
 }
+<<<<<<< HEAD
 #achievement-popup {
     position: fixed;
     top: 20px;
@@ -279,3 +288,5 @@ body {
     90% { opacity: 1; }
     100% { opacity: 0; }
 }
+=======
+>>>>>>> origin/main
