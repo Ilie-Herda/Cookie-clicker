@@ -66,6 +66,16 @@ class Game {
         // Start
         this.updateUI();
         this.startAutoClickers();
+        this.totalClicks = parseInt(localStorage.getItem("totalClicks")) || 0;
+        this.totalCookiesEarned = parseFloat(localStorage.getItem("totalCookiesEarned")) || 0;
+
+        this.statsIcon = document.getElementById("stats-icon");
+        this.statsPopup = document.getElementById("stats-popup");
+        this.closeStatsButton = document.getElementById("close-stats");
+
+        this.statsIcon.addEventListener("click", () => this.statsPopup.classList.toggle("hidden"));
+        this.closeStatsButton.addEventListener("click", () => this.statsPopup.classList.add("hidden"));
+
     }
 
     clickCookie() {
@@ -73,6 +83,9 @@ class Game {
         this.playClickSound();
         this.saveGame();
         this.updateUI();
+        this.totalClicks++;
+        this.totalCookiesEarned += this.cookiePerClick * this.cookieMultiplier;
+
     }
 
     playClickSound() {
@@ -259,6 +272,12 @@ class Game {
         document.getElementById("grandmaStats").innerText = `Grandmas (${this.grandma}): ${this.grandma * 3 * this.cookieMultiplier} cps`;
         document.getElementById("farmStats").innerText = `Farms (${this.farm}): ${this.farm * 6 * this.cookieMultiplier} cps`;
         document.getElementById("factoryStats").innerText = `Factories (${this.factory}): ${this.factory * 12 * this.cookieMultiplier} cps`;
+        document.getElementById("totalClicks").innerText = `Totaal aantal klikken: ${this.totalClicks}`;
+        document.getElementById("totalCookies").innerText = `Totaal aantal cookies verdiend: ${Math.floor(this.totalCookiesEarned)}`;
+        document.getElementById("statsGrandmas").innerText = `Grandmas gekocht: ${this.grandma}`;
+        document.getElementById("statsFarms").innerText = `Farms gekocht: ${this.farm}`;
+        document.getElementById("statsFactories").innerText = `Factories gekocht: ${this.factory}`;
+
     }
     
 
@@ -283,6 +302,9 @@ class Game {
         localStorage.setItem("factoryCost", this.factoryCost);
         localStorage.setItem("cookieMultiplier", this.cookieMultiplier);
         localStorage.setItem("multiplierCost", this.multiplierCost);
+        localStorage.setItem("totalClicks", this.totalClicks);
+        localStorage.setItem("totalCookiesEarned", this.totalCookiesEarned);
+
     }
 
     resetGame() {
