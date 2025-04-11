@@ -237,11 +237,12 @@ body {
 }
 #stats-icon {
     position: fixed;
-    bottom: 90px;
-    right: 20px;
+    bottom: 20px;
+    left: 20px; /* Verplaatst naar links */
     width: 50px;
     cursor: pointer;
 }
+
 
 #stats-popup {
     position: fixed;
@@ -256,4 +257,25 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+#achievement-popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffe680;
+    padding: 12px 20px;
+    border: 2px solid #d4a017;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    animation: fadeinout 3s ease-in-out;
+}
+
+@keyframes fadeinout {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
 }

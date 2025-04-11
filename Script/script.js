@@ -20,6 +20,11 @@ class Game {
         this.cookieMultiplier = parseInt(localStorage.getItem("cookieMultiplier")) || 1;
         this.multiplierCost = parseInt(localStorage.getItem("multiplierCost")) || 1000;
 
+        this.totalClicks = parseInt(localStorage.getItem("totalClicks")) || 0;
+        this.totalCookiesEarned = parseFloat(localStorage.getItem("totalCookiesEarned")) || 0;
+
+        this.achievementsUnlocked = JSON.parse(localStorage.getItem("achievementsUnlocked")) || [];
+
         // DOM Elements
         this.cookieElement = document.getElementById("cookie");
         this.counterElement = document.getElementById("counter");
@@ -44,6 +49,13 @@ class Game {
         this.factoryCount = document.getElementById("factoryCount");
         this.factoryProgress = document.getElementById("factoryProgress");
 
+        this.statsIcon = document.getElementById("stats-icon");
+        this.statsPopup = document.getElementById("stats-popup");
+        this.closeStatsButton = document.getElementById("close-stats");
+
+        this.achievementPopup = document.getElementById("achievement-popup");
+        this.achievementText = document.getElementById("achievement-text");
+
         // Sound
         this.clickSound = document.getElementById("clickSound");
 
@@ -59,33 +71,29 @@ class Game {
 
         this.shopIcon.addEventListener("click", () => this.shopPopup.classList.toggle("hidden"));
         this.closeShopButton.addEventListener("click", () => this.shopPopup.classList.add("hidden"));
+
         this.multiplierButton.addEventListener("click", () => this.tryBuy("multiplier"));
         this.clickBoostButton.addEventListener("click", () => this.tryBuy("clickBoost"));
         this.cheaperProductionButton.addEventListener("click", () => this.tryBuy("cheaperProduction"));
 
-        // Start
-        this.updateUI();
-        this.startAutoClickers();
-        this.totalClicks = parseInt(localStorage.getItem("totalClicks")) || 0;
-        this.totalCookiesEarned = parseFloat(localStorage.getItem("totalCookiesEarned")) || 0;
-
-        this.statsIcon = document.getElementById("stats-icon");
-        this.statsPopup = document.getElementById("stats-popup");
-        this.closeStatsButton = document.getElementById("close-stats");
-
         this.statsIcon.addEventListener("click", () => this.statsPopup.classList.toggle("hidden"));
         this.closeStatsButton.addEventListener("click", () => this.statsPopup.classList.add("hidden"));
 
+        // Start
+        this.updateUI();
+        this.startAutoClickers();
     }
 
     clickCookie() {
-        this.cookie += this.cookiePerClick * this.cookieMultiplier;
+        const earned = this.cookiePerClick * this.cookieMultiplier;
+        this.cookie += earned;
+        this.totalCookiesEarned += earned;
+        this.totalClicks++;
+
         this.playClickSound();
+        this.checkAchievements();
         this.saveGame();
         this.updateUI();
-        this.totalClicks++;
-        this.totalCookiesEarned += this.cookiePerClick * this.cookieMultiplier;
-
     }
 
     playClickSound() {
@@ -95,18 +103,43 @@ class Game {
         }
     }
 
+    checkAchievements() {
+        const list = [
+            { id: "100cookies", threshold: 100, text: "🎉 Achievement: Starter Chef (100 cookies)" },
+            { id: "1kcookies", threshold: 1000, text: "🍪 Achievement: Cookie Pro (1.000 cookies)" },
+            { id: "10kcookies", threshold: 10000, text: "🔥 Achievement: Bakbeest (10.000 cookies!)" }
+        ];
+
+        list.forEach(a => {
+            if (this.cookie >= a.threshold && !this.achievementsUnlocked.includes(a.id)) {
+                this.achievementsUnlocked.push(a.id);
+                this.showAchievement(a.text);
+                localStorage.setItem("achievementsUnlocked", JSON.stringify(this.achievementsUnlocked));
+            }
+        });
+    }
+
+    showAchievement(text) {
+        this.achievementText.innerText = text;
+        this.achievementPopup.classList.remove("hidden");
+
+        setTimeout(() => {
+            this.achievementPopup.classList.add("hidden");
+        }, 3000);
+    }
+
     tryBuy(type) {
         let success = false;
 
         switch (type) {
             case "upgrade":
                 if (this.cookie >= this.upgradeCost) {
-                    this.cookie -= this.upgradeCost;
-                    this.cookiePerClick = Math.floor(this.cookiePerClick * (1 + this.cookieMultiplier));
-                    this.upgradeCost = Math.floor(this.upgradeCost * 1.5);
+                     this.cookie -= this.upgradeCost;
+                    this.cookiePerClick += this.cookieMultiplier; // ✅ stabiele upgrade
+                   this.upgradeCost = Math.floor(this.upgradeCost * 1.5);
                     success = true;
-                }
-                break;
+    }
+    break;
 
             case "autoClicker":
                 if (this.cookie >= this.autoClickerCost) {
@@ -240,46 +273,53 @@ class Game {
 
     startAutoClickers() {
         setInterval(() => {
-            const cps = (
-                this.autoClickers * 1 +
-                this.grandma * 3 +
-                this.farm * 6 +
-                this.factory * 12
-            ) * this.cookieMultiplier;
-            this.cookie += cps;
+            const cps =
+                (this.autoClickers * 1) +
+                (this.grandma * 3) +
+                (this.farm * 6) +
+                (this.factory * 12);
+    
+            const total = cps * this.cookieMultiplier;
+    
+            // ❗ Voeg controle toe om alleen te verhogen als > 0
+            if (total > 0) {
+                this.cookie += total;
+                this.totalCookiesEarned += total;
+            }
+    
             this.saveGame();
             this.updateUI();
         }, 1000);
     }
-
+    
     updateUI() {
         this.counterElement.innerText = `Cookies: ${Math.floor(this.cookie)}`;
         this.clickEarningsElement.innerText = `Cookies per click: ${this.cookiePerClick * this.cookieMultiplier}`;
         this.autoEarningsElement.innerText = `Cookies per second: ${(this.autoClickers * 1 + this.grandma * 3 + this.farm * 6 + this.factory * 12) * this.cookieMultiplier}`;
-    
+
         this.upgradeButton.innerText = `Upgrade Click Earnings (Cost: ${this.upgradeCost})`;
         this.autoClickerButton.innerText = `Buy Auto-Clicker (Cost: ${this.autoClickerCost})`;
         this.grandmaButton.innerText = `Buy Grandma's Bakery (Cost: ${this.grandmaCost})`;
         this.farmButton.innerText = `Buy Cookie Farm (Cost: ${this.farmCost})`;
         this.factoryButton.innerText = `Buy Cookie Factory (Cost: ${this.factoryCost})`;
         this.multiplierButton.innerText = `Buy x2 Multiplier (Cost: ${this.multiplierCost})`;
-    
+
         this.setProgress("grandma", this.grandma);
         this.setProgress("farm", this.farm);
         this.setProgress("factory", this.factory);
-    
-        // ➕ NIEUW: Update CPS details per eenheid
-        document.getElementById("grandmaStats").innerText = `Grandmas (${this.grandma}): ${this.grandma * 3 * this.cookieMultiplier} cps`;
-        document.getElementById("farmStats").innerText = `Farms (${this.farm}): ${this.farm * 6 * this.cookieMultiplier} cps`;
-        document.getElementById("factoryStats").innerText = `Factories (${this.factory}): ${this.factory * 12 * this.cookieMultiplier} cps`;
+
+        // Stats update
         document.getElementById("totalClicks").innerText = `Totaal aantal klikken: ${this.totalClicks}`;
         document.getElementById("totalCookies").innerText = `Totaal aantal cookies verdiend: ${Math.floor(this.totalCookiesEarned)}`;
         document.getElementById("statsGrandmas").innerText = `Grandmas gekocht: ${this.grandma}`;
         document.getElementById("statsFarms").innerText = `Farms gekocht: ${this.farm}`;
         document.getElementById("statsFactories").innerText = `Factories gekocht: ${this.factory}`;
 
+        // Unit cps details
+        document.getElementById("grandmaStats").innerText = `Grandmas (${this.grandma}): ${this.grandma * 3 * this.cookieMultiplier} cps`;
+        document.getElementById("farmStats").innerText = `Farms (${this.farm}): ${this.farm * 6 * this.cookieMultiplier} cps`;
+        document.getElementById("factoryStats").innerText = `Factories (${this.factory}): ${this.factory * 12 * this.cookieMultiplier} cps`;
     }
-    
 
     setProgress(type, count) {
         const bar = document.getElementById(`${type}Progress`);
@@ -302,9 +342,9 @@ class Game {
         localStorage.setItem("factoryCost", this.factoryCost);
         localStorage.setItem("cookieMultiplier", this.cookieMultiplier);
         localStorage.setItem("multiplierCost", this.multiplierCost);
+
         localStorage.setItem("totalClicks", this.totalClicks);
         localStorage.setItem("totalCookiesEarned", this.totalCookiesEarned);
-
     }
 
     resetGame() {
