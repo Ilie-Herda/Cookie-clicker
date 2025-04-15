@@ -1,80 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Cookie Clicker</title>
-    <link rel="stylesheet" href="Design/style.css" />
-    <script src="Script/script.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cookie Clicker</title>
+  <link rel="stylesheet" href="Design/style.css" />
+  <script src="Script/script.js" defer></script>
 </head>
 <body>
-   <!-- Linkerkant: grandma, farm, factory -->
-<div id="left-units">
+  <!-- Linkerzijde -->
+  <div id="left-units">
     <div class="unit-visual">
-        <img src="Design/grandma.png" class="unit-icon" />
-        <div class="progress-wrapper">
-            <div class="progress-label">Grandmas: <span id="grandmaCount">0</span></div>
-            <div class="progress-bar"><div id="grandmaProgress" class="progress-fill"></div></div>
-            <div id="grandmaStats" class="unit-cps-text">Grandmas (0): 0 cps</div>
-        </div>
-    </div>
-
-    <div class="unit-visual">
-        <img src="Design/farm.png" class="unit-icon" />
-        <div class="progress-wrapper">
-            <div class="progress-label">Farms: <span id="farmCount">0</span></div>
-            <div class="progress-bar"><div id="farmProgress" class="progress-fill"></div></div>
-            <div id="farmStats" class="unit-cps-text">Farms (0): 0 cps</div>
-        </div>
+      <img src="Design/grandma.png" class="unit-icon" />
+      <div class="progress-wrapper">
+        <div class="progress-label">Grandmas: <span id="grandmaCount">0</span></div>
+        <div class="progress-bar"><div id="grandmaProgress" class="progress-fill"></div></div>
+        <div id="grandmaStats" class="unit-cps-text">Grandmas (0): 0 cps</div>
+      </div>
     </div>
 
     <div class="unit-visual">
-        <img src="Design/Factories.png" class="unit-icon" />
-        <div class="progress-wrapper">
-            <div class="progress-label">Factories: <span id="factoryCount">0</span></div>
-            <div class="progress-bar"><div id="factoryProgress" class="progress-fill"></div></div>
-            <div id="factoryStats" class="unit-cps-text">Factories (0): 0 cps</div>
-        </div>
-    </div>
-</div>
-
-    <!-- Midden: cookie -->
-    <div id="left-side">
-        <div id="clickEarnings">Cookies per click: 1</div>
-        <div id="autoEarnings">Cookies per second: 0</div>
-        <div id="counter">Cookies: 0</div>
-        <img id="cookie" src="Design/cookie.png" alt="Cookie" />
-        <button id="reset">Reset Game</button>
+      <img src="Design/farm.png" class="unit-icon" />
+      <div class="progress-wrapper">
+        <div class="progress-label">Farms: <span id="farmCount">0</span></div>
+        <div class="progress-bar"><div id="farmProgress" class="progress-fill"></div></div>
+        <div id="farmStats" class="unit-cps-text">Farms (0): 0 cps</div>
+      </div>
     </div>
 
-    <!-- Rechterkant: knoppen -->
-    <div id="production">
-        <h2>PRODUCTION</h2>
-        <button id="upgrade" title="Verhoogt je cookies per klik">Upgrade Click Earnings</button>
-        <button id="autoClicker" title="Koopt een automatische klikker (1 cps)">Buy Auto-Clicker</button>
-        <button id="grandma" title="+3 cookies per seconde per Grandma">Buy Grandma's Bakery</button>
-        <button id="farm" title="+6 cookies per seconde per Farm">Buy Cookie Farm</button>
-        <button id="factory" title="+12 cookies per seconde per Factory">Buy Cookie Factory</button>
-        <button id="multiplier" title="Verdubbelt alle productie">Buy x2 Multiplier</button>
-        <button id="clickBoost" title="Verdubbelt je click power">Click Booster</button>
-        <button id="cheaperProduction" title="Maakt gebouwen 20% goedkoper">Reduce Building Costs</button>
-
+    <div class="unit-visual">
+      <img src="Design/Factories.png" class="unit-icon" />
+      <div class="progress-wrapper">
+        <div class="progress-label">Factories: <span id="factoryCount">0</span></div>
+        <div class="progress-bar"><div id="factoryProgress" class="progress-fill"></div></div>
+        <div id="factoryStats" class="unit-cps-text">Factories (0): 0 cps</div>
+      </div>
     </div>
+  </div>
 
-    <!-- Shop -->
-    <img id="shop-icon" src="Design/shop.png" alt="Shop" />
+  <!-- Middenzijde -->
+  <div id="left-side">
+    <div id="clickEarnings">Cookies per click: 1</div>
+    <div id="autoEarnings">Cookies per second: 0</div>
+    <div id="counter">Cookies: 0</div>
+    <img id="cookie" src="Design/cookie.png" alt="Cookie" />
+    <button id="reset">Reset Game</button>
+  </div>
 
-    <div id="shop-popup" class="hidden">
-        <h2>Shop</h2>
-        <button id="multiplier">Buy x2 Multiplier</button>
-        <button id="clickBoost">Click Booster</button>
-        <button id="cheaperProduction">Reduce Building Costs</button>
-        <button id="close-shop">Close</button>
-    </div>
-    <!-- Stats -->
-<img id="stats-icon" src="Design/stats.png" alt="Stats" />
+  <!-- Rechterzijde -->
+  <div id="production">
+    <h2>PRODUCTION</h2>
+    <button id="upgrade">Upgrade Click Earnings</button>
+    <button id="autoClicker">Buy Auto-Clicker</button>
+    <button id="grandma">Buy Grandma's Bakery</button>
+    <button id="farm">Buy Cookie Farm</button>
+    <button id="factory">Buy Cookie Factory</button>
+    <button id="multiplier">Buy x2 Multiplier</button>
+    <button id="clickBoost">Click Booster</button>
+    <button id="cheaperProduction">Reduce Building Costs</button>
+  </div>
 
-<div id="stats-popup" class="hidden">
+  <!-- Shop -->
+  <img id="shop-icon" src="Design/shop.png" alt="Shop" />
+  <div id="shop-popup" class="hidden">
+    <h2>Shop</h2>
+    <button id="multiplier">Buy x2 Multiplier</button>
+    <button id="clickBoost">Click Booster</button>
+    <button id="cheaperProduction">Reduce Building Costs</button>
+    <button id="close-shop">Close</button>
+  </div>
+
+  <!-- Statistieken -->
+  <img id="stats-icon" src="Design/stats.png" alt="Stats" />
+  <div id="stats-popup" class="hidden">
     <h2>Statistieken</h2>
     <p id="totalClicks">Totaal aantal klikken: 0</p>
     <p id="totalCookies">Totaal aantal cookies verdiend: 0</p>
@@ -82,21 +80,17 @@
     <p id="statsFarms">Farms gekocht: 0</p>
     <p id="statsFactories">Factories gekocht: 0</p>
     <button id="close-stats">Sluiten</button>
-</div>
+  </div>
 
-
-
-    <!-- Confetti -->
-    <canvas id="confetti-canvas"></canvas>
-
-    <!-- Geluid -->
-    <audio id="clickSound" src="Design/click.mp3" preload="auto"></audio>
-    <!-- Achievement Pop-up -->
-    <div id="achievement-popup" class="hidden">
+  <!-- Achievement Pop-up -->
+  <div id="achievement-popup" class="hidden">
     <p id="achievement-text">Achievement unlocked!</p>
+  </div>
 
-    </div>
+  <!-- Confetti -->
+  <canvas id="confetti-canvas"></canvas>
 
+  <!-- Geluid -->
+  <audio id="clickSound" src="Design/click.mp3" preload="auto"></audio>
 </body>
-
 </html>
