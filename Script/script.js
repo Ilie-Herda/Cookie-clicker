@@ -41,15 +41,21 @@ class UpgradeItem {
 class Grandma extends UpgradeItem {
     constructor(game) { super(game, 'Grandma', 100, 3, 'grandma'); }
 }
-class Farm    extends UpgradeItem { constructor(game) { super(game, 'Farm',    500, 6, 'farm');    }}
-class Factory extends UpgradeItem { constructor(game) { super(game, 'Factory', 2500,12,'factory'); }}
+class Farm extends UpgradeItem { constructor(game) { super(game, 'Farm', 500, 6, 'farm'); } }
+class Factory extends UpgradeItem { constructor(game) { super(game, 'Factory', 2500, 12, 'factory'); } }
 
 // 🎮 Hoofdklasse Game
 class Game {
     constructor() {
+        // Check for pending reset first
+        if (localStorage.getItem('pendingReset') === 'true') {
+            localStorage.clear();
+            localStorage.removeItem('pendingReset');
+        }
+
         this.loadSettings();
         this.grandma = new Grandma(this);
-        this.farm    = new Farm(this);
+        this.farm = new Farm(this);
         this.factory = new Factory(this);
         this.initDOM();
         this.initEvents();
@@ -58,60 +64,59 @@ class Game {
     }
 
     loadSettings() {
-        this.cookie            = parseFloat(localStorage.getItem('cookies'))            || 0;
-        this.cookiePerClick    = parseInt(localStorage.getItem('cookiesPerClick'))    || 1;
-        this.upgradeCost       = parseInt(localStorage.getItem('upgradeCost'))       || 10;
-        this.autoClickers      = parseInt(localStorage.getItem('autoClickers'))      || 0;
-        this.autoClickerCost   = parseInt(localStorage.getItem('autoClickerCost'))   || 50;
-        this.cookieMultiplier  = parseInt(localStorage.getItem('cookieMultiplier'))  || 1;
-        this.multiplierCost    = parseInt(localStorage.getItem('multiplierCost'))    || 1000;
-        this.totalClicks       = parseInt(localStorage.getItem('totalClicks'))       || 0;
-        this.totalCookiesEarned= parseFloat(localStorage.getItem('totalCookiesEarned'))|| 0;
+        this.cookie = parseFloat(localStorage.getItem('cookies')) || 0;
+        this.cookiePerClick = parseInt(localStorage.getItem('cookiesPerClick')) || 1;
+        this.upgradeCost = parseInt(localStorage.getItem('upgradeCost')) || 10;
+        this.autoClickers = parseInt(localStorage.getItem('autoClickers')) || 0;
+        this.autoClickerCost = parseInt(localStorage.getItem('autoClickerCost')) || 50;
+        this.cookieMultiplier = parseInt(localStorage.getItem('cookieMultiplier')) || 1;
+        this.multiplierCost = parseInt(localStorage.getItem('multiplierCost')) || 1000;
+        this.totalClicks = parseInt(localStorage.getItem('totalClicks')) || 0;
+        this.totalCookiesEarned = parseFloat(localStorage.getItem('totalCookiesEarned')) || 0;
     }
 
     initDOM() {
         this.cookieEl = document.getElementById('cookie');
-        this.countEl  = document.getElementById('counter');
-        this.clickEl  = document.getElementById('clickEarnings');
-        this.autoEl   = document.getElementById('autoEarnings');
+        this.countEl = document.getElementById('counter');
+        this.clickEl = document.getElementById('clickEarnings');
+        this.autoEl = document.getElementById('autoEarnings');
 
-        [ 'upgrade','autoClicker','multiplier','clickBoost','cheaperProduction',
-          'grandma','farm','factory' ]
-        .forEach(id => this[`${id}Btn`]=document.getElementById(id));
+        [ 'upgrade', 'autoClicker', 'multiplier', 'clickBoost', 'cheaperProduction',
+            'grandma', 'farm', 'factory' ]
+            .forEach(id => this[`${id}Btn`] = document.getElementById(id));
 
-        this.resetBtn    = document.getElementById('reset');
-        this.shopIcon    = document.getElementById('shop-icon');
-        this.shopPopup   = document.getElementById('shop-popup');
-        this.closeShop   = document.getElementById('close-shop');
-        this.statsIcon   = document.getElementById('stats-icon');
-        this.statsPopup  = document.getElementById('stats-popup');
-        this.closeStats  = document.getElementById('close-stats');
-        this.achievementPopup= document.getElementById('achievement-popup');
+        this.resetBtn = document.getElementById('reset');
+        this.shopIcon = document.getElementById('shop-icon');
+        this.shopPopup = document.getElementById('shop-popup');
+        this.closeShop = document.getElementById('close-shop');
+        this.statsIcon = document.getElementById('stats-icon');
+        this.statsPopup = document.getElementById('stats-popup');
+        this.closeStats = document.getElementById('close-stats');
+        this.achievementPopup = document.getElementById('achievement-popup');
         this.achievementText = document.getElementById('achievement-text');
 
-        this.grandmaCount= document.getElementById('grandmaCount');
-        this.farmCount   = document.getElementById('farmCount');
-        this.factoryCount= document.getElementById('factoryCount');
+        this.grandmaCount = document.getElementById('grandmaCount');
+        this.farmCount = document.getElementById('farmCount');
+        this.factoryCount = document.getElementById('factoryCount');
     }
 
     initEvents() {
-        this.cookieEl.addEventListener('click', ()=> this.clickCookie());
-        this.upgradeBtn     .addEventListener('click', ()=> this.buyUpgrade());
-        this.autoClickerBtn .addEventListener('click', ()=> this.buyAutoClicker());
-        this.multiplierBtn  .addEventListener('click', ()=> this.buyMultiplier());
-        this.clickBoostBtn  .addEventListener('click', ()=> this.buyClickBoost());
-        this.cheaperProductionBtn
-                            .addEventListener('click', ()=> this.buyCheaper());
+        this.cookieEl.addEventListener('click', () => this.clickCookie());
+        this.upgradeBtn.addEventListener('click', () => this.buyUpgrade());
+        this.autoClickerBtn.addEventListener('click', () => this.buyAutoClicker());
+        this.multiplierBtn.addEventListener('click', () => this.buyMultiplier());
+        this.clickBoostBtn.addEventListener('click', () => this.buyClickBoost());
+        this.cheaperProductionBtn.addEventListener('click', () => this.buyCheaper());
 
-        this.grandmaBtn     .addEventListener('click', ()=> this.buyItem(this.grandma));
-        this.farmBtn        .addEventListener('click', ()=> this.buyItem(this.farm));
-        this.factoryBtn     .addEventListener('click', ()=> this.buyItem(this.factory));
+        this.grandmaBtn.addEventListener('click', () => this.buyItem(this.grandma));
+        this.farmBtn.addEventListener('click', () => this.buyItem(this.farm));
+        this.factoryBtn.addEventListener('click', () => this.buyItem(this.factory));
 
-        this.resetBtn.addEventListener('click', ()=> this.resetGame());
-        this.shopIcon.addEventListener('click', ()=> this.shopPopup.classList.toggle('hidden'));
-        this.closeShop.addEventListener('click', ()=> this.shopPopup.classList.add('hidden'));
-        this.statsIcon.addEventListener('click',()=> this.statsPopup.classList.toggle('hidden'));
-        this.closeStats.addEventListener('click',()=> this.statsPopup.classList.add('hidden'));
+        this.resetBtn.addEventListener('click', () => this.resetGame());
+        this.shopIcon.addEventListener('click', () => this.shopPopup.classList.toggle('hidden'));
+        this.closeShop.addEventListener('click', () => this.shopPopup.classList.add('hidden'));
+        this.statsIcon.addEventListener('click', () => this.statsPopup.classList.toggle('hidden'));
+        this.closeStats.addEventListener('click', () => this.statsPopup.classList.add('hidden'));
     }
 
     clickCookie() {
@@ -161,7 +166,7 @@ class Game {
     buyCheaper() {
         if (this.cookie >= 4000) {
             this.cookie -= 4000;
-            [this.grandma,this.farm,this.factory].forEach(item => {
+            [this.grandma, this.farm, this.factory].forEach(item => {
                 item.cost = Math.floor(item.cost * 0.8);
                 item.save();
             });
@@ -177,39 +182,39 @@ class Game {
 
     totalCPS() {
         return this.autoClickers * 1 +
-               this.grandma.getTotalCPS(this.cookieMultiplier) +
-               this.farm   .getTotalCPS(this.cookieMultiplier) +
-               this.factory.getTotalCPS(this.cookieMultiplier);
+            this.grandma.getTotalCPS(this.cookieMultiplier) +
+            this.farm.getTotalCPS(this.cookieMultiplier) +
+            this.factory.getTotalCPS(this.cookieMultiplier);
     }
 
     updateUI() {
         this.countEl.innerText = `Cookies: ${Math.floor(this.cookie)}`;
         this.clickEl.innerText = `Cookies per click: ${this.cookiePerClick * this.cookieMultiplier}`;
-        this.autoEl .innerText = `Cookies per second: ${this.totalCPS().toFixed(1)}`;
+        this.autoEl.innerText = `Cookies per second: ${this.totalCPS().toFixed(1)}`;
 
-        this.upgradeBtn.innerText    = `Upgrade Click Earnings (Cost: ${this.upgradeCost})`;
-        this.autoClickerBtn.innerText= `Buy Auto-Clicker (Cost: ${this.autoClickerCost})`;
+        this.upgradeBtn.innerText = `Upgrade Click Earnings (Cost: ${this.upgradeCost})`;
+        this.autoClickerBtn.innerText = `Buy Auto-Clicker (Cost: ${this.autoClickerCost})`;
         this.multiplierBtn.innerText = `Buy x2 Multiplier (Cost: ${this.multiplierCost})`;
         this.clickBoostBtn.innerText = `Click Booster (Cost: 3000)`;
         this.cheaperProductionBtn.innerText = `Reduce Building Costs (Cost: 4000)`;
 
-        this.grandmaBtn.innerText    = `Buy Grandma's Bakery (Cost: ${this.grandma.cost})`;
-        this.farmBtn.innerText       = `Buy Cookie Farm (Cost: ${this.farm.cost})`;
-        this.factoryBtn.innerText    = `Buy Cookie Factory (Cost: ${this.factory.cost})`;
+        this.grandmaBtn.innerText = `Buy Grandma's Bakery (Cost: ${this.grandma.cost})`;
+        this.farmBtn.innerText = `Buy Cookie Farm (Cost: ${this.farm.cost})`;
+        this.factoryBtn.innerText = `Buy Cookie Factory (Cost: ${this.factory.cost})`;
 
-        this.grandmaCount.textContent= this.grandma.count;
-        this.farmCount.textContent   = this.farm.count;
-        this.factoryCount.textContent= this.factory.count;
+        this.grandmaCount.textContent = this.grandma.count;
+        this.farmCount.textContent = this.farm.count;
+        this.factoryCount.textContent = this.factory.count;
 
         document.getElementById('grandmaStats').innerText = `Grandmas (${this.grandma.count}): ${this.grandma.getTotalCPS(this.cookieMultiplier)} cps`;
-        document.getElementById('farmStats')   .innerText = `Farms (${this.farm.count}): ${this.farm.getTotalCPS(this.cookieMultiplier)} cps`;
+        document.getElementById('farmStats').innerText = `Farms (${this.farm.count}): ${this.farm.getTotalCPS(this.cookieMultiplier)} cps`;
         document.getElementById('factoryStats').innerText = `Factories (${this.factory.count}): ${this.factory.getTotalCPS(this.cookieMultiplier)} cps`;
 
         document.getElementById('totalClicks').innerText = `Totaal aantal klikken: ${this.totalClicks}`;
-        document.getElementById('totalCookies').innerText= `Totaal aantal cookies verdiend: ${Math.floor(this.totalCookiesEarned)}`;
-        document.getElementById('statsGrandmas').innerText= `Grandmas gekocht: ${this.grandma.count}`;
-        document.getElementById('statsFarms').innerText   = `Farms gekocht: ${this.farm.count}`;
-        document.getElementById('statsFactories').innerText=`Factories gekocht: ${this.factory.count}`;
+        document.getElementById('totalCookies').innerText = `Totaal aantal cookies verdiend: ${Math.floor(this.totalCookiesEarned)}`;
+        document.getElementById('statsGrandmas').innerText = `Grandmas gekocht: ${this.grandma.count}`;
+        document.getElementById('statsFarms').innerText = `Farms gekocht: ${this.farm.count}`;
+        document.getElementById('statsFactories').innerText = `Factories gekocht: ${this.factory.count}`;
     }
 
     saveGame() {
@@ -227,7 +232,7 @@ class Game {
 
     resetGame() {
         if (confirm('Weet je zeker dat je het spel wilt resetten?')) {
-            localStorage.clear();
+            localStorage.setItem('pendingReset', 'true');
             location.reload();
         }
     }
