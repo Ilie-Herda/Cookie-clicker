@@ -38,11 +38,16 @@ class UpgradeItem {
     }
 }
 
-class Grandma extends UpgradeItem {
-    constructor(game) { super(game, 'Grandma', 100, 3, 'grandma'); }
-}
+class Grandma extends UpgradeItem { constructor(game) { super(game, 'Grandma', 100, 3, 'grandma'); } }
 class Farm extends UpgradeItem { constructor(game) { super(game, 'Farm', 500, 6, 'farm'); } }
 class Factory extends UpgradeItem { constructor(game) { super(game, 'Factory', 2500, 12, 'factory'); } }
+
+// New building classes
+class Plantation extends UpgradeItem { constructor(game) { super(game, 'Plantation', 10000, 25, 'plantation'); } }
+class Mine extends UpgradeItem { constructor(game) { super(game, 'Mine', 50000, 50, 'mine'); } }
+class Bank extends UpgradeItem { constructor(game) { super(game, 'Bank', 250000, 100, 'bank'); } }
+class Laboratory extends UpgradeItem { constructor(game) { super(game, 'Laboratory', 1000000, 250, 'laboratory'); } }
+class Generator extends UpgradeItem { constructor(game) { super(game, 'Generator', 5000000, 500, 'generator'); } }
 
 // 🎮 Hoofdklasse Game
 class Game {
@@ -57,6 +62,13 @@ class Game {
         this.grandma = new Grandma(this);
         this.farm = new Farm(this);
         this.factory = new Factory(this);
+        // Initialize new buildings
+        this.plantation = new Plantation(this);
+        this.mine = new Mine(this);
+        this.bank = new Bank(this);
+        this.laboratory = new Laboratory(this);
+        this.generator = new Generator(this);
+
         this.initDOM();
         this.initEvents();
         this.updateUI();
@@ -82,7 +94,7 @@ class Game {
         this.autoEl = document.getElementById('autoEarnings');
 
         [ 'upgrade', 'autoClicker', 'multiplier', 'clickBoost', 'cheaperProduction',
-            'grandma', 'farm', 'factory' ]
+            'grandma', 'farm', 'factory', 'plantation', 'mine', 'bank', 'laboratory', 'generator' ]
             .forEach(id => this[`${id}Btn`] = document.getElementById(id));
 
         this.resetBtn = document.getElementById('reset');
@@ -98,6 +110,12 @@ class Game {
         this.grandmaCount = document.getElementById('grandmaCount');
         this.farmCount = document.getElementById('farmCount');
         this.factoryCount = document.getElementById('factoryCount');
+        // New DOM elements for new buildings
+        this.plantationCount = document.getElementById('plantationCount');
+        this.mineCount = document.getElementById('mineCount');
+        this.bankCount = document.getElementById('bankCount');
+        this.laboratoryCount = document.getElementById('laboratoryCount');
+        this.generatorCount = document.getElementById('generatorCount');
     }
 
     initEvents() {
@@ -111,6 +129,12 @@ class Game {
         this.grandmaBtn.addEventListener('click', () => this.buyItem(this.grandma));
         this.farmBtn.addEventListener('click', () => this.buyItem(this.farm));
         this.factoryBtn.addEventListener('click', () => this.buyItem(this.factory));
+        // New event listeners for new buildings
+        this.plantationBtn.addEventListener('click', () => this.buyItem(this.plantation));
+        this.mineBtn.addEventListener('click', () => this.buyItem(this.mine));
+        this.bankBtn.addEventListener('click', () => this.buyItem(this.bank));
+        this.laboratoryBtn.addEventListener('click', () => this.buyItem(this.laboratory));
+        this.generatorBtn.addEventListener('click', () => this.buyItem(this.generator));
 
         this.resetBtn.addEventListener('click', () => this.resetGame());
         this.shopIcon.addEventListener('click', () => this.shopPopup.classList.toggle('hidden'));
@@ -166,7 +190,7 @@ class Game {
     buyCheaper() {
         if (this.cookie >= 4000) {
             this.cookie -= 4000;
-            [this.grandma, this.farm, this.factory].forEach(item => {
+            [this.grandma, this.farm, this.factory, this.plantation, this.mine, this.bank, this.laboratory, this.generator].forEach(item => {
                 item.cost = Math.floor(item.cost * 0.8);
                 item.save();
             });
@@ -184,38 +208,62 @@ class Game {
         return this.autoClickers * 1 +
             this.grandma.getTotalCPS(this.cookieMultiplier) +
             this.farm.getTotalCPS(this.cookieMultiplier) +
-            this.factory.getTotalCPS(this.cookieMultiplier);
+            this.factory.getTotalCPS(this.cookieMultiplier) +
+            this.plantation.getTotalCPS(this.cookieMultiplier) +
+            this.mine.getTotalCPS(this.cookieMultiplier) +
+            this.bank.getTotalCPS(this.cookieMultiplier) +
+            this.laboratory.getTotalCPS(this.cookieMultiplier) +
+            this.generator.getTotalCPS(this.cookieMultiplier);
     }
 
     updateUI() {
         this.countEl.innerText = `Cookies: ${Math.floor(this.cookie)}`;
         this.clickEl.innerText = `Cookies per click: ${this.cookiePerClick * this.cookieMultiplier}`;
         this.autoEl.innerText = `Cookies per second: ${this.totalCPS().toFixed(1)}`;
-
+    
         this.upgradeBtn.innerText = `Upgrade Click Earnings (Cost: ${this.upgradeCost})`;
         this.autoClickerBtn.innerText = `Buy Auto-Clicker (Cost: ${this.autoClickerCost})`;
         this.multiplierBtn.innerText = `Buy x2 Multiplier (Cost: ${this.multiplierCost})`;
         this.clickBoostBtn.innerText = `Click Booster (Cost: 3000)`;
         this.cheaperProductionBtn.innerText = `Reduce Building Costs (Cost: 4000)`;
-
+    
         this.grandmaBtn.innerText = `Buy Grandma's Bakery (Cost: ${this.grandma.cost})`;
         this.farmBtn.innerText = `Buy Cookie Farm (Cost: ${this.farm.cost})`;
         this.factoryBtn.innerText = `Buy Cookie Factory (Cost: ${this.factory.cost})`;
-
+    
+        // Update new building buttons
+        this.plantationBtn.innerText = `Buy Plantation (Cost: ${this.plantation.cost})`;
+        this.mineBtn.innerText = `Buy Mine (Cost: ${this.mine.cost})`;
+        this.bankBtn.innerText = `Buy Bank (Cost: ${this.bank.cost})`;
+        this.laboratoryBtn.innerText = `Buy Laboratory (Cost: ${this.laboratory.cost})`;
+        this.generatorBtn.innerText = `Buy Generator (Cost: ${this.generator.cost})`;
+    
+        // Update unit counts in the UI
         this.grandmaCount.textContent = this.grandma.count;
         this.farmCount.textContent = this.farm.count;
         this.factoryCount.textContent = this.factory.count;
-
-        document.getElementById('grandmaStats').innerText = `Grandmas (${this.grandma.count}): ${this.grandma.getTotalCPS(this.cookieMultiplier)} cps`;
-        document.getElementById('farmStats').innerText = `Farms (${this.farm.count}): ${this.farm.getTotalCPS(this.cookieMultiplier)} cps`;
-        document.getElementById('factoryStats').innerText = `Factories (${this.factory.count}): ${this.factory.getTotalCPS(this.cookieMultiplier)} cps`;
-
+        // New counters for new buildings
+        this.plantationCount.textContent = this.plantation.count;
+        this.mineCount.textContent = this.mine.count;
+        this.bankCount.textContent = this.bank.count;
+        this.laboratoryCount.textContent = this.laboratory.count;
+        this.generatorCount.textContent = this.generator.count;
+    
+        // Update the stats panel
+        document.getElementById('statsGrandmas').textContent = `Grandmas gekocht: ${this.grandma.count}`;
+        document.getElementById('statsFarms').textContent = `Farms gekocht: ${this.farm.count}`;
+        document.getElementById('statsFactories').textContent = `Factories gekocht: ${this.factory.count}`;
+        document.getElementById('statsPlantations').textContent = `Plantations gekocht: ${this.plantation.count}`;
+        document.getElementById('statsMines').textContent = `Mines gekocht: ${this.mine.count}`;
+        document.getElementById('statsBanks').textContent = `Banks gekocht: ${this.bank.count}`;
+        document.getElementById('statsLaboratories').textContent = `Laboratories gekocht: ${this.laboratory.count}`;
+        document.getElementById('statsGenerators').textContent = `Generators gekocht: ${this.generator.count}`;
+    
+        // Update total statistics
         document.getElementById('totalClicks').innerText = `Totaal aantal klikken: ${this.totalClicks}`;
         document.getElementById('totalCookies').innerText = `Totaal aantal cookies verdiend: ${Math.floor(this.totalCookiesEarned)}`;
-        document.getElementById('statsGrandmas').innerText = `Grandmas gekocht: ${this.grandma.count}`;
-        document.getElementById('statsFarms').innerText = `Farms gekocht: ${this.farm.count}`;
-        document.getElementById('statsFactories').innerText = `Factories gekocht: ${this.factory.count}`;
     }
+    
 
     saveGame() {
         localStorage.setItem('cookies', this.cookie);
@@ -228,6 +276,7 @@ class Game {
         localStorage.setItem('totalClicks', this.totalClicks);
         localStorage.setItem('totalCookiesEarned', this.totalCookiesEarned);
         this.grandma.save(); this.farm.save(); this.factory.save();
+        this.plantation.save(); this.mine.save(); this.bank.save(); this.laboratory.save(); this.generator.save();
     }
 
     resetGame() {

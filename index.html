@@ -14,8 +14,6 @@
       <img src="Design/grandma.png" class="unit-icon" />
       <div class="progress-wrapper">
         <div class="progress-label">Grandmas: <span id="grandmaCount">0</span></div>
-        <div class="progress-bar"><div id="grandmaProgress" class="progress-fill"></div></div>
-        <div id="grandmaStats" class="unit-cps-text">Grandmas (0): 0 cps</div>
       </div>
     </div>
 
@@ -23,8 +21,6 @@
       <img src="Design/farm.png" class="unit-icon" />
       <div class="progress-wrapper">
         <div class="progress-label">Farms: <span id="farmCount">0</span></div>
-        <div class="progress-bar"><div id="farmProgress" class="progress-fill"></div></div>
-        <div id="farmStats" class="unit-cps-text">Farms (0): 0 cps</div>
       </div>
     </div>
 
@@ -32,8 +28,43 @@
       <img src="Design/Factories.png" class="unit-icon" />
       <div class="progress-wrapper">
         <div class="progress-label">Factories: <span id="factoryCount">0</span></div>
-        <div class="progress-bar"><div id="factoryProgress" class="progress-fill"></div></div>
-        <div id="factoryStats" class="unit-cps-text">Factories (0): 0 cps</div>
+      </div>
+    </div>
+
+    <!-- New Production Buildings -->
+    <div class="unit-visual">
+      <img src="Design/plantation.png" class="unit-icon" />
+      <div class="progress-wrapper">
+        <div class="progress-label">Plantations: <span id="plantationCount">0</span></div>
+      </div>
+    </div>
+
+    <div class="unit-visual">
+      <img src="Design/mine.png" class="unit-icon" />
+      <div class="progress-wrapper">
+        <div class="progress-label">Mines: <span id="mineCount">0</span></div>
+      </div>
+    </div>
+
+    <div class="unit-visual">
+      <img src="Design/bank.png" class="unit-icon" />
+      <div class="progress-wrapper">
+        <div class="progress-label">Banks: <span id="bankCount">0</span></div>
+
+      </div>
+    </div>
+
+    <div class="unit-visual">
+      <img src="Design/laboratory.png" class="unit-icon" />
+      <div class="progress-wrapper">
+        <div class="progress-label">Laboratories: <span id="laboratoryCount">0</span></div>
+      </div>
+    </div>
+
+    <div class="unit-visual">
+      <img src="Design/generator.png" class="unit-icon" />
+      <div class="progress-wrapper">
+        <div class="progress-label">Generators: <span id="generatorCount">0</span></div>
       </div>
     </div>
   </div>
@@ -55,6 +86,14 @@
     <button id="grandma">Buy Grandma's Bakery</button>
     <button id="farm">Buy Cookie Farm</button>
     <button id="factory">Buy Cookie Factory</button>
+
+    <!-- New Production Buttons -->
+    <button id="plantation">Buy Plantation</button>
+    <button id="mine">Buy Mine</button>
+    <button id="bank">Buy Bank</button>
+    <button id="laboratory">Buy Laboratory</button>
+    <button id="generator">Buy Generator</button>
+
     <button id="multiplier">Buy x2 Multiplier</button>
     <button id="clickBoost">Click Booster</button>
     <button id="cheaperProduction">Reduce Building Costs</button>
@@ -79,6 +118,11 @@
     <p id="statsGrandmas">Grandmas gekocht: 0</p>
     <p id="statsFarms">Farms gekocht: 0</p>
     <p id="statsFactories">Factories gekocht: 0</p>
+    <p id="statsPlantations">Plantations gekocht: 0</p>
+    <p id="statsMines">Mines gekocht: 0</p>
+    <p id="statsBanks">Banks gekocht: 0</p>
+    <p id="statsLaboratories">Laboratories gekocht: 0</p>
+    <p id="statsGenerators">Generators gekocht: 0</p>
     <button id="close-stats">Sluiten</button>
   </div>
 
